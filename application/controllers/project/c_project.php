@@ -19,6 +19,14 @@ if ($this->session->userdata('akses') == null) {
 
 	function index(){
 
+			$data['all_p'] 		= $this->db->get('tabel_project')->num_rows();
+													$this->db->where('status_project','on planning');
+			$data['planning_p'] = $this->db->get('tabel_project')->num_rows();
+												  $this->db->where('status_project','on progress');
+			$data['progresh_p'] = $this->db->get('tabel_project')->num_rows();
+													$this->db->where('status_project','done');
+			$data['done_p'] 		= $this->db->get('tabel_project')->num_rows();
+
 		if($this->session->userdata('akses') == 'admin'){
 			$data['all_project'] = $this->m_project->m_list_project();
 			$this->load->view('project/v_list_project', $data);

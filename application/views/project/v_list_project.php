@@ -19,27 +19,27 @@
 						  	<div class="box-header">
 						    	<h3 class="box-title">Project Summary</h3>
 						  	</div>
-						  	<div class="box-body">
+								<div class="box-body">
 						  		<table class="table table-condensed">
 						  		  <tr>
 						  		    <td>1.</td>
 						  		    <td>Total Project</td>
-						  		    <td><span class="badge badge-primary">150</span></td>
+						  		    <td><span class="badge badge-primary"><?php echo $all_p;?></span></td>
 						  		  </tr>
 						  		  <tr>
 						  		    <td>2.</td>
 						  		    <td>On Planning</td>
-						  		    <td><span class="badge badge-info">70</span></td>
+						  		    <td><span class="badge badge-info"><?php echo $planning_p;?></span></td>
 						  		  </tr>
 						  		  <tr>
 						  		    <td>3.</td>
 						  		    <td>On Progress</td>
-						  		    <td><span class="badge badge-success">30</span></td>
+						  		    <td><span class="badge badge-success"><?php echo $progresh_p;?></span></td>
 						  		  </tr>
 						  		  <tr>
 						  		    <td>4.</td>
 						  		    <td>Has Done</td>
-						  		    <td><span class="badge badge-danger">90</span></td>
+						  		    <td><span class="badge badge-danger"><?php echo $done_p;?></span></td>
 						  		  </tr>
 						  		</table>
 						  	</div>

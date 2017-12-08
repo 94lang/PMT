@@ -15,6 +15,7 @@
 echo'<br>
 	';
 ?>
+
 <?php $this->load->view('asset'); ?>
 	<title>Manage User | Solusi247</title>
   <body>

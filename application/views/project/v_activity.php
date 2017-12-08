@@ -9,13 +9,13 @@ foreach ($activityes as $u4) {
       <div class="card" style="border: 0.5px solid #e7e4e4ba !important">
         <div class="card-header" role="tab" id="heading'.$id_activity.'" style="border-bottom:0.5px solid #e7e4e4ba !important;">
           <div class="input-group">
-            <input type="text" style="cursor:pointer;" class="form-control act activity'.$id_activity.'" value="'.$nama_activity.'"
+            <input type="text" style="cursor:pointer;" id="nama_activity_update'.$id_activity.'" class="form-control act activity'.$id_activity.'" value="'.$nama_activity.'"
             <a data-toggle="collapse" href="#collapse'.$id_activity.'" aria-expanded="true" aria-controls="collapseOne" style="text-decoration:none;color:#4e4f50 !important">
             </a>
             <span class="input-group-addon activity">
             <button class="act editactivity'.$id_activity.'" onclick="activeInput('.$id_activity.')"><i style="  font-size: 1rem !important;" class="material-icons">mode_edit</i></button>
             <button class="saved saveactivity'.$id_activity.'" onclick="saveInput('.$id_activity.')"><i style="  font-size: 1rem !important;" class="material-icons">save</i></button>
-              <button class="act deleteactivity'.$id_activity.'" onclick="saveInput('.$id_activity.')"><i style="  font-size: 1rem !important;" class="material-icons">delete</i></button>
+              <button class="act deleteactivity'.$id_activity.'" onclick="delete_activity('.$id_activity.')"><i style="  font-size: 1rem !important;" class="material-icons">delete</i></button>
             </span>
           </div>
         </div>' ;
@@ -132,6 +132,21 @@ foreach ($activityes as $u4) {
       });
 
   }
+
+
+  function delete_activity(id) {
+      if (confirm("Are you sure?")) {
+        console.log(id);
+            $.ajax({
+          type:"POST",
+          dataType : "JSON",
+          data : {id:id},
+          url: "<?php echo base_url('index.php/project/c_activity/delete_activity'); ?>",
+          success: function(){
+          }
+        }); location.reload();
+         }
+    }
   function activeInput(id_activity){
     $('input.form-control.activity'+String(id_activity)).css('background','#fff');
     $('input.form-control.activity'+String(id_activity)).css('border','1px solid gray');
@@ -139,12 +154,27 @@ foreach ($activityes as $u4) {
     $('.editactivity'+String(id_activity)).css('display','none');
     $('.saveactivity'+String(id_activity)).css('display','block');
   }
-  function saveInput(id_activity){
-    $('input.form-control.activity'+String(id_activity)).css('background','#f8f9fa');
-    $('input.form-control.activity'+String(id_activity)).css('border','none');
-    $('input.form-control.activity'+String(id_activity)).css('border-radius','0 ');
-    $('.editactivity'+String(id_activity)).css('display','block ');
-    $('.saveactivity'+String(id_activity)).css('display','none');
+  function saveInput(id){
+
+    nama = $('#nama_activity_update'+String(id)).val();
+  //  console.log(nama_Activity);
+
+    $.ajax({
+            type:"POST",
+            dataType : "JSON",
+            data : { id:id, nama:nama },
+            url: "<?php echo base_url('index.php/project/c_activity/update_Nactivity'); ?>",
+            success: function(data){
+              //$('#nama_activity_update'+String(id_activity)).val(nama_Activity);
+              $('input.form-control.activity'+String(id)).css('background','#f8f9fa');
+              $('input.form-control.activity'+String(id)).css('border','none');
+              $('input.form-control.activity'+String(id)).css('border-radius','0 ');
+              $('.editactivity'+String(id)).css('display','block ');
+              $('.saveactivity'+String(id)).css('display','none');
+            }
+      });
+
+
   }
 
 </script>

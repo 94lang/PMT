@@ -73,6 +73,25 @@ $this->load->library('session');
 
       //echo $result;
   }
+  function update_Nactivity(){
+    $id_activity = $this->input->POST('id');
+    $nama_activity = $this->input->POST('nama');
+
+    if(ctype_space($nama_activity) || $nama_activity==null){
+      $data ['mssg'] = 'name of activity is empty!!';
+    }else{
+      $result = $this->m_activity->m_update_Nactivity($id_activity,$nama_activity);
+      if($result == 'ok'){
+        $data ['mssg'] = $result;//'success full update data activity';
+      }else if($result == 'failed'){
+        $data ['mssg'] = $result;//'failed update data activity!!';
+      }
+      $data ['result'] = $result;
+    }
+
+    echo json_encode($data);
+
+  }
   function update_activity(){
     $nama_activity = $this->input->POST('nama_activity');
 

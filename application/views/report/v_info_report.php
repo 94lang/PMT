@@ -14,12 +14,13 @@
 											$nama_project 	= $u2->nama_project;
 											$start_date 	= $u2->start_date;
 											$finish_date 	= $u2->finish_date;
-											$status_project	= $u2->status_project;
-											$progress 		= $u2->progress;
+											$status_project	= $u2->status_on_report;
+											$progress 		= $u2->progress_on_report;
 											$id_report 	= $u2->id_report;
 											$date_report= $u2->date_report;
 											$keterangan	= $u2->keterangan;
 											$nama_user 	= $u2->nama_user;
+
 										}
 								?>
 							<h3 class="box-title"><?php echo $nama_project ?></h3>

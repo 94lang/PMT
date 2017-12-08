@@ -62,7 +62,11 @@ function m_insert_activity($values){               // add new project
            }else  $result = 'no';
        return $result;
     }
-
+function m_update_Nactivity($id_activity,$nama_activity){
+  $query = $this->db->query("UPDATE tabel_activity SET nama_activity = '$nama_activity' WHERE id_activity = '$id_activity' ");
+  if($query){$result = 'ok';}else  $result = 'failed';
+ return $result;
+}
 function m_update_activity($values){      // Update data project
 
         $id = $this->input->post('id_activity');

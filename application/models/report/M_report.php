@@ -67,7 +67,7 @@ parent::__construct();
     }
 
     function m_view_report($id_report){
-            return $query = $this->db->query("SELECT id_report, date_report, keterangan,
+            return $query = $this->db->query("SELECT id_report, date_report, keterangan, progress_on_report, status_on_report,
                                                      id_project, nama_project, start_date, finish_date, status_project, progress,
                                                      nama_user
                                                 FROM tabel_report a, tabel_project b, tabel_user c
