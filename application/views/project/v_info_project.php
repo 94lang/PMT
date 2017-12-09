@@ -73,7 +73,8 @@ echo'<br>
 	                    <?php
 	                      foreach ($task as $u4) {
 	                      $id_task 		= $u4->id_task;
-	                      $nama_task 		= $u4->nama_task;
+												$nama_task 		= $u4->nama_task;
+												$status_task 		= $u4->status_task ;
 	                      echo'
 	                      <div class="col-md-12">
 	                        <div class="box" style="box-shadow: 2px 1px 8px 1px rgba(0, 0, 0, 0.1);" >
@@ -82,8 +83,13 @@ echo'<br>
 	                            '.$nama_task.'
 	                            <span>
 	                              <ul class="list-unstyled d-inline-flex float-right">
-	                                <li style="margin:0px 5px; "><span class="badge badge-danger">PJ</span></li>
-	                                <li style="margin:0px 5px; "><span class="badge badge-primary">Status Task</span></li>
+	                                <li style="margin:0px 5px; "><span class="badge badge-danger">
+
+																	';
+																		foreach ($task_user as $u40) { if($u40->from_id_task == $id_task){echo $u40->nama_user.' / ';} }
+
+												echo'				</span></li>
+	                                <li style="margin:0px 5px; "><span class="badge badge-primary">'.$status_task.'</span></li>
 	                              </ul>
 	                            </span>
 	                            </p>
@@ -179,11 +185,12 @@ $(document).ready(function(){
 		document.getElementById('callHeights').style.paddingLeft= "15px";
 		document.getElementById('callHeights').style.paddingRight= "15px";
 		var role = "<?php echo $role; ?>";
+		var end_date = "<?php echo $finish_date ?>";
 		var aksi = 'view';
 		console.log(id,aksi);
 		$.ajax({
 						type:"POST",
-						data : { id:id , id_p:id_p, aksi:aksi, role:role },
+						data : { id:id , id_p:id_p, aksi:aksi, role:role, end_date:end_date },
 						url: "<?php echo base_url('index.php/project/c_task/view_task'); ?>",
 						success: function(data){
 							$('.board').html(data);

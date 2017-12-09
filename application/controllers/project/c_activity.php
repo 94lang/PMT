@@ -146,7 +146,11 @@ $this->load->library('session');
         $id = $this->input->post('id');
         $status = $this->input->post('status');
 
-    $this->m_activity->m_list_status($id,$status);
+        $result = $this->m_activity->m_list_status($id,$status);
+        if($result != 'none'){
+            $result2 = $this->m_activity->m_task_status($result);
+        }
+        echo json_encode($result);
   }
 
   function insert_list(){
@@ -156,7 +160,7 @@ $this->load->library('session');
       $data ['mssg'] = 'name of list activity is empty!!';
     }else{
        $result = $this->m_activity->m_insert_list($_POST);
-      if($result == 'ok'){
+      if($result != 'failed'){
         $data ['mssg'] = 'success full add new list activity ';
       }else if($result == 'failed'){
         $data ['mssg'] = 'failed add new list activity !!';

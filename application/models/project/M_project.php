@@ -96,22 +96,16 @@ parent::__construct();
          return   $query = $this->db->query("SELECT * FROM tabel_task
                                                       WHERE from_id_project = '$value0'")->result();
     }
-
+    function m_user_task($id){
+      return   $query = $this->db->query("SELECT nama_user, from_id_task, from_id_user FROM t_user_task a, tabel_user b
+                                                   WHERE a.from_id_user = b.id_user
+                                                   AND from_id_task in (SELECT id_task FROM tabel_task WHERE from_id_project = '$id')")->result();
+    }
     function m_update_project($values){      // Update data project
           $id = $this->input->post('id_project');
-              $data = array(
-                  'nama_project' => $this->input->post('nama_project'),
-                  'start_date' => $this->input->post('start_date'),
-                  'finish_date' => $this->input->post('finish_date'),
-                  'status_project' => $this->input->post('status_project')
-                  );
+              $data = array('nama_project' => $this->input->post('nama_project'),  'start_date' => $this->input->post('start_date'),'finish_date' => $this->input->post('finish_date'),'status_project' => $this->input->post('status_project'));
 
-              $query = $this->db->query("UPDATE tabel_project
-                                  SET nama_project='".$data['nama_project']."',
-                                      start_date='".$data['start_date']."',
-                                      finish_date='".$data['finish_date']."',
-                                      status_project='".$data['status_project']."'
-                                WHERE id_project='$id' ");
+              $query = $this->db->query("UPDATE tabel_project SET nama_project='".$data['nama_project']."', start_date='".$data['start_date']."', finish_date='".$data['finish_date']."', status_project='".$data['status_project']."' WHERE id_project='$id' ");
               if($query){
                $members   = $this->input->post('members');
                $role      = $this->input->post('role');
@@ -148,6 +142,23 @@ parent::__construct();
                   $msg = 'ok';
             }else $msg = 'failed';
         return $msg;
+    }
+    function m_update_status($id_project){
+      $n_all = $this->db->query("SELECT id_task FROM tabel_task WHERE from_id_project = '$id_project' ")->num_rows();
+      $n_done = $this->db->query("SELECT id_task FROM tabel_task   WHERE from_id_project =  '$id_project'  AND status_task = 'done' ")->num_rows();
+
+
+      if($n_done == 0){
+        $this->db->query("UPDATE tabel_project SET status_project = 'on planning', progress = 0 WHERE id_project = $id_project ");
+      }else if($n_all > $n_done){
+          $des = $n_done / $n_all;
+          $des = $des*100;
+          $progress = floor($des);
+          $this->db->query("UPDATE tabel_project SET status_project = 'on progress', progress = '$progress' WHERE id_project = $id_project ");
+      }else if($n_all == $n_done){
+        $this->db->query("UPDATE tabel_project SET status_project = 'done', progress = 100 WHERE id_project = $id_project ");
+      }
+
     }
 
     function m_delete_project($id){                              // Hapus project

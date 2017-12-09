@@ -122,7 +122,7 @@ echo '
 						success: function(data){
 
 							$('#message').html(data['mssg']);
-							//$('#form_task')[0].reset();
+							window.setTimeout(function(){location.reload()},2000)
 						}
 			});
 	    });

@@ -27,7 +27,7 @@ foreach ($activityes as $u4) {
             echo '<li style="font-size:0.88rem;list-style:none;">'.$u5->list_activity;
 
                 if($actor == 'on task' || $role == "project leader"){
-                echo'<span class="ml-3"><input type="checkbox" name="status[]" value="'.$u5->id_list.'" class="list" checked></input></span>
+                echo'<span class="ml-3"><input type="checkbox" name="status[]" value="'.$u5->id_list.'" class="list" checked disabled></input></span>
 
                   <span class="ml-3"><button  class="project" onclick="delete_list('.$u5->id_list.')"><i class="material-icons">delete</i></button></span>
                   </li>
@@ -76,17 +76,19 @@ foreach ($activityes as $u4) {
     $(".list").change(function() {
         if(this.checked) {
           var id = $(this).val();
+          $(this).attr('checked', true);
+          $(this).attr('disabled', true);
           var status = 'done';
-            $.ajax({
+           $.ajax({
             type:"POST",
             dataType : "JSON",
             data : {id:id,status:status},
             url: "<?php echo base_url('index.php/project/c_activity/list_status'); ?>",
-            success: function(data){
+            success: function(){
 
             }
       });
-        }
+    }
     });
   });
 </script>
@@ -100,8 +102,8 @@ foreach ($activityes as $u4) {
 								data: {id_activity:id_activity, nama_list:nama_list},
 								url: "<?php echo base_url('index.php/project/c_activity/insert_list'); ?>",
 								success: function(data){
-                      if(data['id_list'] != 0){
-                        $('#top_ofBoard'+String(id_activity)).append('<li style="font-size:0.88rem">'+nama_list+'<span class="ml-3"><input type="checkbox" name="status[]" value="'+data['id_list']+'" class="list" ></input></span><span class="ml-3"><button onclick="delete_list('+data['id_list']+')">X</button></span></li>');
+                      if(data['result'] != 'failed'){
+                        $('#top_ofBoard'+String(id_activity)).append('<li style="font-size:0.88rem">'+nama_list+'<span class="ml-3"><input type="checkbox" name="status[]" value="'+data['result']+'" class="list" ></input></span><span class="ml-3"><button onclick="delete_list('+data['id_list']+')">X</button></span></li>');
                         $('#nama_list'+String(id_activity)).val('');
                       }
 								}

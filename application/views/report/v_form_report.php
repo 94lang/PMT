@@ -10,7 +10,7 @@
 			$progress 		= $u2->progress;
 			if($aksi == 'edit'){
 				$id_report 	= $u2->id_report;
-				$date_report= $u2->date_report;
+				$date_report= date ('d-M-Y', strtotime($u2->date_report));
 				$keterangan	= $u2->keterangan;
 				$nama_user 	= $u2->nama_user;
 				$box_title  = 'Edit Report';
@@ -51,7 +51,7 @@
 							  		  <label class="control-label col-sm-6" >Progress</label>
 							  		  <div class="col-sm-12">
 												<input type="text" value="<?php echo $progress ?>" name="label_progress_project" class="form-control"disabled>
-												<input type="hidden" value="<?php echo 0;//$progress ?>" name="progress_project" class="form-control">
+												<input type="hidden" value="<?php echo $progress ?>" name="progress_project" class="form-control">
 							  		  </div>
 							  		</div>
 							  		<div class="form-group">
@@ -63,7 +63,7 @@
 										<div class="form-group">
 							  		  <label class="control-label col-sm-6" >Report Date</label>
 							  		  <div class="col-sm-12">
-							  		    <input type="text" value="<?php $date_report ?>" name="date_report" class="form-control"disabled>
+							  		    <input type="text" value="<?php echo $date_report ?>" name="date_report" class="form-control"disabled>
 							  		  </div>
 							  		</div>
 										<div class="form-group">

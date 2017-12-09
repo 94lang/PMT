@@ -71,9 +71,9 @@ if ($this->session->userdata('akses') == null) {
           	 $on_preport = $this->db->get('tabel_report')->num_rows();
 
           	 if($on_preport <= 0 || $on_preport == null){
+							  $this->m_project->m_update_status($id);
 
-
-			  	echo $konfirmasi = 'ok';
+			  		 		echo $konfirmasi = 'ok';
            	}else if($on_preport > 0 || $on_preport != null){
            		echo $konfirmasi = 'report telah dibuat, tidak dapat membuat baru silahkan edit dari report yang telah anda buat!';
            	}

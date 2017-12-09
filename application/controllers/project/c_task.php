@@ -32,6 +32,7 @@ $this->load->library('session');
     }else{
       $result = $this->m_task->m_insert_task($_POST);
       if($result == 'ok'){
+				$this->m_project->m_update_status( $this->input->POST('id_project'));
         $data ['mssg'] = 'success full add new task';
       }else if($result == 'failed'){
         $data ['mssg'] = 'failed add new task!!';
@@ -47,7 +48,8 @@ $this->load->library('session');
 		$data['id_project'] = $this->input->POST('id_p');
 		$data['id_task'] = $this->input->POST('id');
     $data['aksi'] = $this->input->POST('aksi');
-    $data['role'] = $this->input->POST('role');
+		$data['role'] = $this->input->POST('role');
+		$data['end_date'] = date('d-M-Y', strtotime($this->input->POST('end_date')));
 
 		/*		!!! cek user sebagai anggota team & rolenya dalamg project !!! */
 		$id_user = $this->session->userdata('id_user');

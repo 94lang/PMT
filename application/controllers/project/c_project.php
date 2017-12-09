@@ -137,7 +137,8 @@ if ($this->session->userdata('akses') == null) {
 
 	      $data['data_project'] = $this->m_project->m_view_project($id);
 	      $data['member'] = $this->m_project->m_view_p_members($id);
-	      $data['task'] = $this->m_project->m_view_p_task($id);
+				$data['task'] = $this->m_project->m_view_p_task($id);
+				$data['task_user'] = $this->m_project->m_user_task($id);
 
 	     if($aksi == 'edit'){
 	      $data['aksi'] = 'edit';

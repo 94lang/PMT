@@ -42,9 +42,9 @@ function m_insert_activity($values){               // add new project
                 );
 
             //$this->db->set($values);
-            $query = $this->db->query("INSERT INTO tabel_activity(nama_activity,from_id_user,from_id_task)
-                                    VALUES('".$data['nama_activity']."','".$data['member']."','".$data['id_task']."')");
-
+            $query = $this->db->query("INSERT INTO tabel_activity(nama_activity,status_activity,from_id_user,from_id_task)
+                                    VALUES('".$data['nama_activity']."','on progress','".$data['member']."','".$data['id_task']."')");
+                     $this->db->query("UPDATE tabel_task SET status_task = 'on progress' WHERE id_task = '".$data['id_task']."' ");
             if($query){
                  $id_task = $this->db->insert_id();
                  $list_activity = $this->input->post('activity_list');
@@ -100,11 +100,40 @@ function m_update_activity($values){      // Update data project
 
       $date = date('Y-m-d');
 
-        $this->db->where('id_list', $id);
-        $this->db->set('status_list',$status);
-        $this->db->set('date_activity',$date);
-        $this->db->update('t_list_activity');
-  }
+            $this->db->where('id_list', $id);
+            $this->db->set('status_list',$status);
+            $this->db->set('date_activity',$date);
+       $this->db->update('t_list_activity');
+
+        $n_all = $this->db->query("SELECT id_list FROM t_list_activity WHERE from_id_activity = (SELECT from_id_activity FROM t_list_activity WHERE id_list = '$id') ")->num_rows();
+        $n_done = $this->db->query("SELECT id_list FROM t_list_activity   WHERE from_id_activity =  (SELECT from_id_activity FROM t_list_activity WHERE id_list = '$id')  AND status_list = 'done' ")->num_rows();
+
+        $id_activity = 'none';
+        if($n_all == $n_done){
+            $query = $this->db->query("SELECT from_id_activity FROM t_list_activity WHERE id_list = '$id' ")->result();
+            foreach($query as $key){
+              $id_activity = $key->from_id_activity;
+            }
+          $this->db->query("UPDATE tabel_activity SET status_activity = 'done' WHERE id_activity = '$id_activity' ");
+        }
+        return $id_activity;
+      }
+      function m_task_status($id_activity){
+        $n_all = $this->db->query("SELECT id_activity FROM tabel_activity WHERE from_id_task = (SELECT from_id_task FROM tabel_activity WHERE id_activity = '$id_activity') ")->num_rows();
+        $n_done = $this->db->query("SELECT id_activity FROM tabel_activity   WHERE from_id_task =  (SELECT from_id_task FROM tabel_activity WHERE id_activity = '$id_activity')  AND status_activity = 'done' ")->num_rows();
+
+        $id_task = 'none';
+        if($n_all == $n_done){
+            $query = $this->db->query("SELECT from_id_task FROM tabel_activity WHERE id_activity = '$id_activity' ")->result();
+            foreach($query as $key){
+              $id_task = $key->from_id_task;
+            }
+          $this->db->query("UPDATE tabel_task SET status_task = 'done' WHERE id_task = $id_task ");
+        }
+        return $id_task;
+      }
+
+
 
   function m_insert_list($values){
          $status = null;
@@ -122,7 +151,10 @@ function m_update_activity($values){      // Update data project
         $query = $this->db->query("INSERT INTO t_list_activity(list_activity,status_list,from_id_Activity,date_activity)
                                     VALUES('$nama_list','$status','$id_activity','$date') ");
 
-        if($query){$result = $this->db->insert_id();}else  $result = 'failed';
+        if($query){
+          $result = $this->db->insert_id();
+           $this->db->query("UPDATE tabel_activity SET status_activity = 'on progress' WHERE id_activity = '$id_activity' ");
+        }else  $result = 'failed';
                                    return $result;
     }
     function m_update_list($values){
@@ -153,7 +185,7 @@ function m_update_activity($values){      // Update data project
                                                 ORDER BY id_activity ASC ")->result();
     }
     function m_list_activity(){               //
-              $this->db->order_by('id_list','DESC');
+              $this->db->order_by('id_list','ASC');
               return  $query =  $this->db->get('t_list_activity')->result();
     }
 }

@@ -11,10 +11,9 @@ echo '
 	<span class="input-group-addon project">
 	<button class="project edit" onclick="active_Ntask()"><i class="material-icons">mode_edit</i></button>
 	<button class="project save" onclick="saveN_task('.$id_task.')"><i class="material-icons">save</i></button>
-	<button class="project add" onclick="addMember()"><i class="material-icons">person_add</i></button>
-
+<button class="project add"  data-toggle="popover" data-trigger="focus" data-content="Pilih gambar untuk memilih member" onclick="addMember()"><i class="material-icons">person_add</i></button>
 	</span>
-	<span class="input-group-addon project">End Date <span class="ml-2 badge badge-primary"><?php echo $start_date ?></span></span>
+	<span class="input-group-addon project">'.$end_date.' <span class="ml-2 badge badge-primary"><?php echo $start_date ?></span></span>
 </div>
 
 		<table class="table table-responsive table-condensed table-md" id="boards">
